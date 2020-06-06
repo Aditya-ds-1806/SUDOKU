@@ -1,0 +1,260 @@
+html, body {
+  padding: 0;
+  margin: 0;
+  font-size: 30px;
+}
+
+body {
+  background-color: #FFE;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  transition: background-color 1s;
+}
+
+h1 {
+  font-weight: 600;
+  font-size: 75px;
+  color: #FFF;
+}
+
+h1.mb-0.pt-3 {
+  background-color: #212529;
+}
+
+#navbarDropdown {
+  color: rgb(255, 255, 255);
+}
+
+img {
+  border-radius: 20px;
+}
+
+#logo {
+  border-radius: 6px;
+}
+
+.loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #212529;
+  color: white;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cell {
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  background-color: #FFE;
+  padding: 0;
+  margin: 0;
+  transition: background-color 1s;
+}
+
+.cell-success {
+  background-color: #98fb98;
+}
+
+.dropdown-menu {
+  min-width: 1rem;
+  background-color: #FFE;
+}
+
+label {
+  color: #FFF;
+  font-size: 20px;
+}
+
+.navbar-brand, .navbar-toggler {
+  font-size: 20px;
+}
+
+.bg-light {
+  background-color: #212529!important;
+}
+
+div.dropdown-menu.show {
+  font-size: 20px;
+}
+
+button.btn-secondary:nth-of-type(1) {
+  border-top-left-radius: 35px;
+  border-bottom-left-radius: 35px;
+}
+
+button.btn-secondary:nth-of-type(9) {
+  border-top-right-radius: 35px;
+  border-bottom-right-radius: 35px;
+}
+
+#tick {
+  width: 20px;
+  height: 20px;
+}
+
+.non-edit {
+  color: rgb(55, 100, 255);
+}
+
+.cell:nth-of-type(3), .cell:nth-of-type(6) {
+  border-right: 4px solid #565656;
+}
+
+tr:nth-of-type(3n) {
+  border-bottom: 4px solid #565656;
+}
+
+.focus {
+  background-color: rgba(55, 100, 255, 0.3);
+  transition: none;
+}
+
+button.navbar-toggler:focus {
+  outline: none;
+}
+
+.cell:focus {
+  background-color: rgb(55, 255, 100);
+}
+
+.error {
+  background-color: rgba(255, 75, 75);
+}
+
+.btn-secondary {
+  background-color: #565656;
+  border-color: #565656;
+}
+
+.btn-secondary:hover {
+  background-color: #212529;
+  border-color: #212529;
+}
+
+table, td {
+  border: 2px solid #565656;
+  border-collapse: collapse;
+}
+
+table {
+  border: 4px solid #565656;
+}
+
+
+.navbar-dark .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,<svg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'><path stroke='rgba(255, 255, 255, 1)' stroke-width='4' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/></svg>");
+}
+
+.navbar-dark .navbar-toggler {
+  border: none;
+  padding-right: 0;
+}
+
+
+
+@media (max-width: 576px) {
+  .btn-responsive {
+    padding: .25rem .55rem;
+    font-size: 30px;
+  }
+  h1 {
+    font-size: 60px;
+  }
+  button.btn-secondary:nth-of-type(1) {
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
+  }
+
+  button.btn-secondary:nth-of-type(9) {
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+  }
+  #tick {
+    margin-top: 0.5rem;
+  }
+}
+
+@media (min-width: 640px) {
+  #newGame {
+    margin-top: 3px!important;
+  }
+}
+
+@media (min-width: 576px) and (max-width: 640px) {
+  .navbar-brand, .navbar-toggler, label {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 500px) {
+  .cell {
+    width: 40px;
+    height: 40px;
+    font-size: 25px;
+  }
+  .btn-responsive {
+    padding: .2rem .42rem;
+    font-size: 25px;
+  }
+  h1 {
+    font-size: 48px;
+  }
+  button.btn-secondary:nth-of-type(1) {
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+  }
+
+  button.btn-secondary:nth-of-type(9) {
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+  }
+  .navbar-brand, .navbar-toggler, label {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 400px) {
+  .cell {
+    width: 35px;
+    height: 35px;
+    font-size: 22px;
+  }
+  .spinner-border {
+    width: 50px;
+    height: 50px;
+    font-size: 20px
+  }
+  .btn-responsive {
+    padding: .1rem .35rem;
+    font-size: 22px;
+  }
+  h1 {
+    font-size: 37px;
+  }
+  button.btn-secondary:nth-of-type(1) {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+  }
+
+  button.btn-secondary:nth-of-type(9) {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+  }
+  .navbar-brand, .navbar-toggler, label {
+    font-size: 15px;
+  }
+  #tick {
+    width: 15px;
+    height: 15px;
+    margin-top: 0.7rem;
+  }
+  .form-check-label {
+    margin: auto -10px;
+  }
+}
