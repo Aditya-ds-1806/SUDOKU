@@ -47,6 +47,6 @@ function hideScreen() {
 function solve() {
   while (document.getElementsByClassName("error").length > 0) document.getElementsByClassName("error")[0].classList.remove("error");
   for (var row = 0; row < solvedPuzzle.length; row++)
-    for (var col = 0; col < solvedPuzzle.length; col++) animation = setInterval(Sudoku.showSolution, 20 * row, row, col, animation);
+    for (var col = 0; col < solvedPuzzle.length; col++) animation = setInterval(Sudoku.showSolution, 50 * row, row, col, animation);
 }
 
