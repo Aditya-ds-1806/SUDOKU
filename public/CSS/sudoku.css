@@ -1,4 +1,5 @@
-html, body {
+html,
+body {
   padding: 0;
   margin: 0;
   font-size: 30px;
@@ -8,7 +9,8 @@ body {
   background-color: #FFE;
   font-family: 'Montserrat', sans-serif;
   font-weight: 600;
-  transition: background-color 1s;
+  transition: background-color 500ms;
+  user-select: none;
 }
 
 h1 {
@@ -54,7 +56,7 @@ img {
   background-color: #FFE;
   padding: 0;
   margin: 0;
-  transition: background-color 1s;
+  transition: background-color 500ms;
 }
 
 .cell-success {
@@ -71,12 +73,13 @@ label {
   font-size: 20px;
 }
 
-.navbar-brand, .navbar-toggler {
+.navbar-brand,
+.navbar-toggler {
   font-size: 20px;
 }
 
 .bg-light {
-  background-color: #212529!important;
+  background-color: #212529 !important;
 }
 
 div.dropdown-menu.show {
@@ -102,7 +105,8 @@ button.btn-secondary:nth-of-type(9) {
   color: rgb(55, 100, 255);
 }
 
-.cell:nth-of-type(3), .cell:nth-of-type(6) {
+.cell:nth-of-type(3),
+.cell:nth-of-type(6) {
   border-right: 4px solid #565656;
 }
 
@@ -111,8 +115,7 @@ tr:nth-of-type(3n) {
 }
 
 .focus {
-  background-color: rgba(55, 100, 255, 0.3);
-  transition: none;
+  background-color: rgba(55, 98, 255, 0.5);
 }
 
 button.navbar-toggler:focus {
@@ -137,7 +140,8 @@ button.navbar-toggler:focus {
   border-color: #212529;
 }
 
-table, td {
+table,
+td {
   border: 2px solid #565656;
   border-collapse: collapse;
 }
@@ -163,9 +167,11 @@ table {
     padding: .25rem .55rem;
     font-size: 30px;
   }
+
   h1 {
     font-size: 60px;
   }
+
   button.btn-secondary:nth-of-type(1) {
     border-top-left-radius: 25px;
     border-bottom-left-radius: 25px;
@@ -175,6 +181,7 @@ table {
     border-top-right-radius: 25px;
     border-bottom-right-radius: 25px;
   }
+
   #tick {
     margin-top: 0.5rem;
   }
@@ -182,12 +189,15 @@ table {
 
 @media (min-width: 640px) {
   #newGame {
-    margin-top: 3px!important;
+    margin-top: 3px !important;
   }
 }
 
 @media (min-width: 576px) and (max-width: 640px) {
-  .navbar-brand, .navbar-toggler, label {
+
+  .navbar-brand,
+  .navbar-toggler,
+  label {
     font-size: 16px;
   }
 }
@@ -198,13 +208,16 @@ table {
     height: 40px;
     font-size: 25px;
   }
+
   .btn-responsive {
     padding: .2rem .42rem;
     font-size: 25px;
   }
+
   h1 {
     font-size: 48px;
   }
+
   button.btn-secondary:nth-of-type(1) {
     border-top-left-radius: 12px;
     border-bottom-left-radius: 12px;
@@ -214,7 +227,10 @@ table {
     border-top-right-radius: 12px;
     border-bottom-right-radius: 12px;
   }
-  .navbar-brand, .navbar-toggler, label {
+
+  .navbar-brand,
+  .navbar-toggler,
+  label {
     font-size: 18px;
   }
 }
@@ -225,18 +241,22 @@ table {
     height: 35px;
     font-size: 22px;
   }
+
   .spinner-border {
     width: 50px;
     height: 50px;
     font-size: 20px
   }
+
   .btn-responsive {
     padding: .1rem .35rem;
     font-size: 22px;
   }
+
   h1 {
     font-size: 37px;
   }
+
   button.btn-secondary:nth-of-type(1) {
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
@@ -246,14 +266,19 @@ table {
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
   }
-  .navbar-brand, .navbar-toggler, label {
+
+  .navbar-brand,
+  .navbar-toggler,
+  label {
     font-size: 15px;
   }
+
   #tick {
     width: 15px;
     height: 15px;
     margin-top: 0.7rem;
   }
+
   .form-check-label {
     margin: auto -10px;
   }
