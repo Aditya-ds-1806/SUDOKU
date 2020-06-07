@@ -1,4 +1,3 @@
-var counter = 0;
 var solvedPuzzle, animation;
 var puzzleTracker = {};
 puzzleTracker.board = [[], [], [], [], [], [], [], [], []];
@@ -13,8 +12,6 @@ async function newGame() {
   var puzzle = await getNewPuzzle(level).catch(err => console.error(err));
   sudokuPuzzleFill(puzzle);
   setTimeout(() => $(".loader").slideUp(), 2000);
-  editCellContent();
-  triggerFocus();
 }
 
 function determineLevel() {
@@ -38,7 +35,7 @@ function hideScreen() {
   document.body.style.backgroundColor = "#FFE";
   for (var i = 0; i < 81; i++) document.querySelectorAll(".cell")[i].classList.remove("cell-success");
   document.querySelector("input[name=tick]").checked = false;
-  document.getElementById("message").textContent = "Contacting Server..."
+  document.getElementById("message").textContent = "Contacting Server...";
 }
 
 function initialize() {
@@ -59,15 +56,19 @@ function clearGrid() {
 function bindEventListeners() {
   document.querySelector("input[name=tick]").addEventListener("input", showErrors);
   document.querySelector("#solve").addEventListener("click", solve);
-  document.querySelector("#newGame").addEventListener("click", function () {
+  document.querySelector("#newGame").addEventListener("click", function (e) {
+    e.stopImmediatePropagation();
     newGame();
   });
   changeLevel();
+  triggerFocus();
+  editCellContent();
 }
 
 function changeLevel() {
   for (var i = 0; i < 3; i++) {
-    document.querySelectorAll(".dropdown-menu a")[i].addEventListener("click", function () {
+    document.querySelectorAll(".dropdown-menu a")[i].addEventListener("click", function (e) {
+      e.stopImmediatePropagation();
       document.querySelector("#navbarDropdown").textContent = this.textContent;
       newGame();
     });
@@ -75,22 +76,15 @@ function changeLevel() {
 }
 
 function solve() {
-  var count = 0;
-  console.log(document.getElementsByClassName("error")[0]);
-  if (document.getElementsByClassName("error")) {
-    while (document.getElementsByClassName("error").length > 0) {
-      document.getElementsByClassName("error")[0].classList.remove("error");
-    }
+  while (document.getElementsByClassName("error").length > 0) {
+    document.getElementsByClassName("error")[0].classList.remove("error");
   }
 
   for (var row = 0; row < solvedPuzzle.length; row++) {
     for (var col = 0; col < solvedPuzzle.length; col++) {
       animation = setInterval(showSolution, 20 * row, row, col, animation);
-      count++;
     }
-    console.log(count);
   }
-  console.log(count);
 }
 
 function showSolution(row, col, animation) {
@@ -108,7 +102,14 @@ function showSolution(row, col, animation) {
 
 function triggerFocus() {
   for (var i = 0; i < document.querySelectorAll("td").length; i++) {
-    document.querySelectorAll("td")[i].addEventListener("click", giveFocus);
+    document.querySelectorAll("td")[i].addEventListener("click", function () {
+      if (!this.classList.contains("non-edit")) {
+        if (document.querySelector(".focus")) {
+          document.querySelector(".focus").classList.remove("focus");
+        }
+        this.classList.add("focus");
+      }
+    });
   }
 }
 
@@ -150,29 +151,17 @@ function puzzleUpdate() {
   }
 }
 
-function giveFocus() {
-  if (!this.classList.contains("non-edit")) {
-    if (document.querySelector(".focus")) {
-      document.querySelector(".focus").classList.remove("focus");
-    }
-    this.classList.add("focus");
-  }
-}
-
 function sudokuPuzzleFill(data) {
+  clearGrid();
   document.getElementById("message").textContent = "Generating Sudoku...";
   while (document.querySelectorAll(".non-edit").length > 0) {
     document.querySelectorAll(".non-edit")[0].classList.remove("non-edit");
-  }
-  for (var i = 0; i < 9; i++) {
-    for (var j = 0; j < 9; j++) {
-      document.getElementById(i.toString() + j.toString()).textContent = "";
-    }
   }
   for (var i = 0; i < data.squares.length; i++) {
     document.getElementById(data.squares[i].x.toString() + data.squares[i].y.toString()).textContent = data.squares[i].value;
     document.getElementById(data.squares[i].x.toString() + data.squares[i].y.toString()).classList.add("non-edit");
   }
+  console.log("done");
   objectStructureDefine();
   getSolution();
 }
