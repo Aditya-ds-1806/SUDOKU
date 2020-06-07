@@ -1,82 +1,74 @@
 var counter = 0;
-var request = new XMLHttpRequest();
-var data, solvedPuzzle, animation;
+var solvedPuzzle, animation;
 var puzzleTracker = {};
-var level;
 puzzleTracker.board = [[], [], [], [], [], [], [], [], []];
 var corsProxy = "https://cors-anywhere.herokuapp.com/";
 var puzzleUrl = "http://www.cs.utep.edu/cheon/ws/sudoku/new/?size=9&level=";
 
-sudokuGridGenerate();
-newGame();
-levelChange();
+window.onload = newGame;
 
-function newGame() {
-  window.clearInterval(animation);
+async function newGame() {
   initialize();
-  if (document.querySelector("#navbarDropdown").textContent === "Easy") {
-    level = 1;
-  }
-  else if (document.querySelector("#navbarDropdown").textContent === "Medium") {
-    level = 2;
-  }
-  else {
-    level = 3;
-  }
-  request.open("GET", corsProxy + puzzleUrl + level, true);
-
-  request.onload = function() {
-    if (request.status >= 200 && request.status < 400) {
-      data = JSON.parse(request.responseText);
-      console.log(data.squares);
-      sudokuPuzzleFill(data);
-      setTimeout(function() {
-        $(".loader").slideUp();
-      }, 2000);
-      editCellContent();
-      triggerFocus();
-      document.querySelector("input[name=tick]").addEventListener("input", showErrors);
-      document.querySelector("#solve").addEventListener("click", solve);
-      document.querySelector("#newGame").addEventListener("click", function() {
-        gameInit();
-        newGame();
-      });
-    } else {
-      console.log("We reached our target server, but it returned an error");
-    }
-  };
-
-  request.onerror = function() {
-    console.log("There was a connection error of some sort. Please check your internet connection!");
-  };
-
-  request.send();
+  var level = determineLevel();
+  var puzzle = await getNewPuzzle(level).catch(err => console.error(err));
+  sudokuPuzzleFill(puzzle);
+  setTimeout(() => $(".loader").slideUp(), 2000);
+  editCellContent();
+  triggerFocus();
 }
 
-function gameInit() {
-  puzzleTracker.board = [[], [], [], [], [], [], [], [], []];
+function determineLevel() {
+  var level, levelText = document.querySelector("#navbarDropdown").textContent;
+  if (levelText === "Easy") level = 1;
+  else if (levelText === "Medium") level = 2;
+  else level = 3;
+  return level;
+}
+
+function getNewPuzzle(level) {
+  return $.ajax({
+    method: 'GET',
+    url: corsProxy + puzzleUrl + level,
+    dataType: 'json'
+  });
+}
+
+function hideScreen() {
   $(".loader").slideDown();
   document.body.style.backgroundColor = "#FFE";
-  for (var i = 0; i < 81; i++) {
-    document.querySelectorAll(".cell")[i].classList.remove("cell-success");
-  }
+  for (var i = 0; i < 81; i++) document.querySelectorAll(".cell")[i].classList.remove("cell-success");
   document.querySelector("input[name=tick]").checked = false;
   document.getElementById("message").textContent = "Contacting Server..."
 }
 
 function initialize() {
-  for (var i = 0; i < 9; i++) {
-    for (var j = 0; j < 9; j++) {
-      document.getElementById(i.toString() + j.toString()).textContent = "";
-    }
-  }
+  puzzleTracker.board = [[], [], [], [], [], [], [], [], []];
+  sudokuGridGenerate();
+  // clearGrid();
+  window.clearInterval(animation);
+  bindEventListeners();
+  hideScreen();
 }
 
-function levelChange() {
+function clearGrid() {
+  for (var i = 0; i < 9; i++)
+    for (var j = 0; j < 9; j++)
+      document.getElementById(i.toString() + j.toString()).textContent = "";
+}
+
+function bindEventListeners() {
+  document.querySelector("input[name=tick]").addEventListener("input", showErrors);
+  document.querySelector("#solve").addEventListener("click", solve);
+  document.querySelector("#newGame").addEventListener("click", function () {
+    newGame();
+  });
+  changeLevel();
+}
+
+function changeLevel() {
   for (var i = 0; i < 3; i++) {
-    document.querySelectorAll(".dropdown-menu a")[i].addEventListener("click", function() {
+    document.querySelectorAll(".dropdown-menu a")[i].addEventListener("click", function () {
       document.querySelector("#navbarDropdown").textContent = this.textContent;
-      gameInit();
       newGame();
     });
   }
@@ -93,7 +85,7 @@ function solve() {
 
   for (var row = 0; row < solvedPuzzle.length; row++) {
     for (var col = 0; col < solvedPuzzle.length; col++) {
-      animation = setInterval(showSolution, 20*row, row, col, animation);
+      animation = setInterval(showSolution, 20 * row, row, col, animation);
       count++;
     }
     console.log(count);
@@ -121,14 +113,14 @@ function triggerFocus() {
 }
 
 function encodeBoard(board) {
-  return board.reduce(function(result, row, i) {
-    return result + `%5B${encodeURIComponent(row)}%5D${i === board.length -1 ? '' : '%2C'}`
+  return board.reduce(function (result, row, i) {
+    return result + `%5B${encodeURIComponent(row)}%5D${i === board.length - 1 ? '' : '%2C'}`
   }, '')
 }
 
 function encodeParams(params) {
   return Object.keys(params)
-    .map(function(key) {
+    .map(function (key) {
       return key + '=' + `%5B${encodeBoard(params[key])}%5D`
     })
     .join('&')
@@ -141,7 +133,7 @@ function getSolution() {
     url: 'https://sugoku2.herokuapp.com/solve',
     data: encodeParams(puzzleTracker),
     contentType: 'application/x-www-form-urlencoded',
-    success: function(d) {
+    success: function (d) {
       solvedPuzzle = d.solution;
       console.log(d);
     }
@@ -198,14 +190,15 @@ function objectStructureDefine() {
 }
 
 function sudokuGridGenerate() {
+  var tBody = document.querySelector("#tableBody");
+  var html = "<tr>";
   for (var row = 0; row < 9; row++) {
-    var html = "<tr>";
     for (var col = 0; col < 9; col++) {
       html = html + '<td class="cell" id="' + row + col + '"></td>';
     }
     html = html + "</tr>";
-    $("#tableBody").append(html);
   }
+  tBody.innerHTML = html;
 }
 
 function showErrors() {
@@ -230,7 +223,6 @@ function showErrors() {
 }
 
 function editCellContent() {
-  // console.log("running");
   for (var i = 0; i < document.querySelectorAll(".buttons button").length; i++) {
     document.querySelectorAll(".buttons button")[i].addEventListener("click", btnClick);
     document.querySelector("body").addEventListener("keydown", keyboardControls);
@@ -256,9 +248,8 @@ function puzzleStatus() {
   console.log(filled);
   if (filled === 0) {
     console.log("running");
-loop1:
+    loop1:
     for (var row = 0; row < solvedPuzzle.length; row++) {
-loop2:
       for (var col = 0; col < solvedPuzzle.length; col++) {
         if (solvedPuzzle[row][col] !== puzzleTracker.board[row][col] && puzzleTracker.board[row][col] !== 0) {
           document.querySelector("input[name=tick]").checked = true;
